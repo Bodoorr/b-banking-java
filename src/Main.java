@@ -1,3 +1,4 @@
+import models.User;
 import services.LoginService;
 
 import java.util.*;
@@ -13,7 +14,16 @@ public class Main {
 
 
         LoginService loginService=new LoginService();
-        loginService.login(id,password);
+
+        Optional<User> loggedIn= loginService.login(id, password);
+        if (loggedIn.isPresent()){
+            User user=loggedIn.get();
+            System.out.println("Welcome "+ user.getFirstName() + " "+ user.getLastName());
+        }else{
+            System.out.println("Logged in failed! try again.");
+        }
+
+
 
 
     }
