@@ -38,4 +38,26 @@ public class FileManager {
         }
         return lines;
     }
+
+    //re-write data
+    public static void overWriteFile(String filename, List<String> dataEntries) {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(filename));
+            for (String entry : dataEntries) {
+                writer.write(entry);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

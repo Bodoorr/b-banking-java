@@ -33,4 +33,8 @@ public class AccountService {
         }
 return accountsList;
     }
+
+    public void deposit(String accountId, double amount){
+
+    }
 }
