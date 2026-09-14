@@ -7,7 +7,7 @@ import utils.FileManager;
 import java.util.ArrayList;
 
 public class CustomerService {
-    public void addCustomer(String id, String firstName, String lastName, String password, String accountType, double checkingAccountBalance , double savingsAccountBalance, String checkingAccountId, String savingsAccountId){
+    public void addCustomer(String id, String firstName, String lastName, String password, String accountType,String checkingAccountId, double checkingAccountBalance , String savingsAccountId, double savingsAccountBalance){
         Customer customer=new Customer(id,firstName,lastName, password, "C");
         String customerData= id+","+firstName+","+lastName+","+password+","+"C";
         ArrayList<String> customerList= new ArrayList<>();
