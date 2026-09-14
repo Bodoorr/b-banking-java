@@ -51,12 +51,12 @@ return accountsList;
                     if (data[2].equals("CHECKING")){
                         CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive);
                         checkingAccount.deposit(amount);
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance()+","+checkingAccount.getOverdraftCount()+","+checkingAccount.getAccountActive();
                         updatedLines.add(updateLine);
                     }else if(data[2].equals("SAVINGS")){
                         SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive);
                         savingsAccount.deposit(amount);
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance()+","+savingsAccount.getOverdraftCount()+","+savingsAccount.getAccountActive();
                         updatedLines.add(updateLine);
                     }
                 } else {
@@ -84,12 +84,12 @@ return accountsList;
                     if (data[2].equals("CHECKING")){
                         CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive);
                         checkingAccount.withdraw(amount);
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance()+","+checkingAccount.getOverdraftCount()+","+checkingAccount.getAccountActive();
                         updatedLines.add(updateLine);
                     }else if (data[2].equals("SAVINGS")){
                         SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive);
                         savingsAccount.withdraw(amount);
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance()+","+savingsAccount.getOverdraftCount()+","+savingsAccount.getAccountActive();
                         updatedLines.add(updateLine);
                     }
                 }
