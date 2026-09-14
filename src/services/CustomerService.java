@@ -16,22 +16,22 @@ public class CustomerService {
 
         ArrayList<String> accountList= new ArrayList<>();
         if(accountType.equals("CHECKING")){
-        CheckingAccount checkingAccount=new CheckingAccount(checkingAccountId,checkingAccountBalance);
+        CheckingAccount checkingAccount=new CheckingAccount(checkingAccountId,checkingAccountBalance,0,true);
         customer.addAccount(checkingAccount);
-        String accountData= checkingAccountId+","+id+","+accountType+","+checkingAccountBalance;
+        String accountData= checkingAccountId+","+id+","+accountType+","+checkingAccountBalance+","+"0"+","+"true";
         accountList.add(accountData);
     } else if (accountType.equals("SAVINGS")) {
-        SavingsAccount savingsAccount=new SavingsAccount(savingsAccountId,savingsAccountBalance);
+        SavingsAccount savingsAccount=new SavingsAccount(savingsAccountId,savingsAccountBalance,0,true);
         customer.addAccount(savingsAccount);
-        String accountData= savingsAccountId+","+id+","+accountType+","+savingsAccountBalance;
+        String accountData= savingsAccountId+","+id+","+accountType+","+savingsAccountBalance+","+"0"+","+"true";
         accountList.add(accountData);
         } else if (accountType.equals("BOTH")){
-        CheckingAccount checkingAccount=new CheckingAccount(checkingAccountId,checkingAccountBalance);
-        SavingsAccount savingsAccount=new SavingsAccount(savingsAccountId,savingsAccountBalance);
+        CheckingAccount checkingAccount=new CheckingAccount(checkingAccountId,checkingAccountBalance,0,true);
+        SavingsAccount savingsAccount=new SavingsAccount(savingsAccountId,savingsAccountBalance,0,true);
         customer.addAccount(checkingAccount);
         customer.addAccount(savingsAccount);
-        String checkingAccountData= checkingAccountId+","+id+","+"CHECKING"+","+checkingAccountBalance;
-        String savingsAccountData= savingsAccountId+","+id+","+"SAVINGS"+","+savingsAccountBalance;
+        String checkingAccountData= checkingAccountId+","+id+","+"CHECKING"+","+checkingAccountBalance+","+"0"+","+"true";
+        String savingsAccountData= savingsAccountId+","+id+","+"SAVINGS"+","+savingsAccountBalance+","+"0"+","+"true";
         accountList.add(checkingAccountData);
         accountList.add(savingsAccountData);
         }
