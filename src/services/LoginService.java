@@ -15,6 +15,7 @@ public class LoginService implements Authentication{
             for (String user:users){
                 String [] data = user.split(",");
                 if (data[0].equals(id) && data[3].equals(password)){
+                    double balance= Double.parseDouble(data[4]);
                     if(data[5].equals("C")){
                         Customer customer=new Customer(
                                 data[0],data[1],data[2],data[3],data[5]

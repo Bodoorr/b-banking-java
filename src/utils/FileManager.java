@@ -5,6 +5,7 @@ import java.util.*;
 
 public class FileManager {
     public static void main(String[] args) {
+
         // Read file
         try {
             List<String> lines = readAllLines("src/data");
@@ -12,6 +13,28 @@ public class FileManager {
             lines.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Create file
+    public static void writeData(String filename, List<String> dataEntries) {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(filename, true)); // append mode
+            for (String entry : dataEntries) {
+                writer.write(entry);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
