@@ -8,7 +8,7 @@ public class LoginService implements Authentication{
     @Override
     public Optional<User> login(String id, String password) {
         try {
-            List<String> users = FileManager.readAllLines("data.txt");
+            List<String> users = FileManager.readAllLines("src/data");
 
             for (String user:users){
                 String [] data = user.split(",");

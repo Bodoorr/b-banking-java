@@ -1,4 +1,4 @@
 package models;
 
-class Customer extends User{
+public class Customer {
 }

@@ -1,4 +1,4 @@
 package models;
 
-class Banker extends User {
+public class Banker {
 }
