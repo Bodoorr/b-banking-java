@@ -20,7 +20,7 @@ public class Main {
             User user=loggedIn.get();
             System.out.println("Welcome "+ user.getFirstName() + " "+ user.getLastName());
         }else{
-            System.out.println("Logged in failed! try again.");
+            System.out.println("Login failed! try again.");
         }
 
 

@@ -1,4 +1,8 @@
 package models;
 
-class CheckingAccount extends Account{
+public class CheckingAccount extends Account{
+
+    public CheckingAccount(String accountId, double balance){
+        super(accountId,balance);
+    }
 }
