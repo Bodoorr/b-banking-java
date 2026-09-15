@@ -23,7 +23,13 @@ public abstract class Account {
 
     //deposit
     public void deposit(double amount){
+
         balance += amount;
+
+        if (balance>=0 && !accountActive){
+            accountActive=true;
+            overdraftCount=0;
+        }
     }
 
     //withdraw
