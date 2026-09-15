@@ -1,3 +1,4 @@
+import models.Account;
 import models.User;
 import services.AccountService;
 import services.CustomerService;
@@ -83,7 +84,54 @@ public class Main {
                     System.out.println("Invalid input.");
                 }
             }else if (user.getRole().equals("C")){
+            AccountService accountService=new AccountService();
+            ArrayList<Account> accounts=accountService.getAccounts(user.getId());
 
+                if (accounts.isEmpty()){
+                    System.out.println("You don't have any accounts.");
+                    return;
+                }
+                Account selectedAccount;
+                if (accounts.size()==1){
+                    selectedAccount= accounts.get(0);
+                } else {
+                    System.out.println("Select Account: ");
+                    System.out.println("1.Checking Account.");
+                    System.out.println("2. Savings Account.");
+                    String selectAccountOption= scanner.next();
+                    if (selectAccountOption.equals("1")){
+                        selectedAccount= accounts.get(0);
+                    } else if(selectAccountOption.equals("2")){
+                        selectedAccount= accounts.get(1);
+                    } else {
+                        System.out.println("wrong input! please try again.");
+                        return;
+                    }
+                }
+
+                System.out.println("Choose Transaction: ");
+                System.out.println("1. Deposit");
+                System.out.println("2. Withdraw");
+                System.out.println("3. Transfer"); //need to implement the logic
+                System.out.println("4. Exit");
+                String transactionOption= scanner.next();
+                if (transactionOption.equals("1")){
+                    System.out.print("Enter deposit amount: ");
+                    double depositAmount= scanner.nextDouble();
+                    accountService.deposit(selectedAccount.getAccountId(),depositAmount);
+                }else if (transactionOption.equals("2")){
+                    System.out.print("Enter withdraw amount: ");
+                    double withdrawAmount= scanner.nextDouble();
+                    accountService.withdraw(selectedAccount.getAccountId(),withdrawAmount);
+                }else if (transactionOption.equals("3")){
+                    System.out.println("Enter transfer amount: ");
+                    double transferAmount= scanner.nextDouble();
+                }else if (transactionOption.equals("4")){
+                    System.out.println("Bye!");
+                } else {
+                    System.out.println("Invalid input, Please try again.");
+                    return;
+                }
             }
 
         }else{
