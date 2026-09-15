@@ -33,6 +33,10 @@ public class Main {
                 if (option.equals("1")){
                     System.out.println("Enter Customer ID: ");
                     String customerId= scanner.next();
+                    if (customerService.customerIdExisting(customerId)){
+                        System.out.println("Customer Id already exist.");
+                        return;
+                    }
                     System.out.println("Enter Customer First Name: ");
                     String customerFirstName= scanner.next();
                     System.out.println("Enter Customer Last Name: ");
@@ -53,24 +57,41 @@ public class Main {
                         accountType = "CHECKING";
                         System.out.print("Enter Account ID: ");
                         checkingAccountId= scanner.next();
-                        System.out.print("Enter Checking Account Balance: ");
+                        if (customerService.accountIdExisting(checkingAccountId)){
+                            System.out.println("Checking ID already exist!");
+                            return;
+                        }
+                            System.out.print("Enter Checking Account Balance: ");
                         checkingAccountBalance= scanner.nextDouble();
                     } else if (accountChoice.equals("2")) {
                         accountType = "SAVINGS";
                         System.out.print("Enter Account ID: ");
                         savingsAccountId= scanner.next();
+                        if (customerService.accountIdExisting(savingsAccountId)){
+                            System.out.println("Savings ID already exist!");
+                            return;
+                        }
                         System.out.print("Enter Savings Account Balance: ");
                         savingsAccountBalance= scanner.nextDouble();
                     } else if (accountChoice.equals("3")) {
                         accountType = "BOTH";
                         System.out.print("Enter Checking Account ID: ");
                         checkingAccountId= scanner.next();
+                        if (customerService.accountIdExisting(checkingAccountId)){
+                            System.out.println("Checking ID already exist!");
+                            return;
+                        }
                         System.out.print("Enter Checking Account Balance: ");
                         checkingAccountBalance= scanner.nextDouble();
                         System.out.print("Enter Savings Account ID: ");
                         savingsAccountId= scanner.next();
+                        if (customerService.accountIdExisting(savingsAccountId) || savingsAccountId.equals(checkingAccountId)){
+                            System.out.println("This account ID cannot be used. Each account suppose to have different ID's.");
+                            return;
+                        }
                         System.out.print("Enter Savings Account Balance: ");
                         savingsAccountBalance= scanner.nextDouble();
+
                     } else {
                         System.out.println("Invalid Account Type.");
                         return;
@@ -112,7 +133,7 @@ public class Main {
                 System.out.println("Choose Transaction: ");
                 System.out.println("1. Deposit");
                 System.out.println("2. Withdraw");
-                System.out.println("3. Transfer"); //need to implement the logic
+                System.out.println("3. Transfer");
                 System.out.println("4. Exit");
                 String transactionOption= scanner.next();
                 if (transactionOption.equals("1")){
@@ -124,8 +145,37 @@ public class Main {
                     double withdrawAmount= scanner.nextDouble();
                     accountService.withdraw(selectedAccount.getAccountId(),withdrawAmount);
                 }else if (transactionOption.equals("3")){
-                    System.out.println("Enter transfer amount: ");
-                    double transferAmount= scanner.nextDouble();
+                    System.out.println("1. Transfer to my other account.");
+                    System.out.println("2. Transfer to other customer account");
+                    System.out.println("3. Exit");
+                    String transferAccountChoice= scanner.next();
+                    if (transferAccountChoice.equals("1")){
+                        if (accounts.size() < 2){
+                            System.out.println("You don't have another account.");
+                            return;
+                        }
+                        Account toAccount;
+                        if (selectedAccount==accounts.get(0)){
+                            toAccount= accounts.get(1);
+                        } else {
+                            toAccount= accounts.get(0);
+                        }
+                        System.out.println("Enter transfer amount: ");
+                        double transferAmount= scanner.nextDouble();
+                        accountService.transfer(selectedAccount.getAccountId(),toAccount.getAccountId(),transferAmount);
+                    } else if(transferAccountChoice.equals("2")){
+                        System.out.print("Enter the receiver account id: ");
+                        String receiverAccountId= scanner.next();
+                        System.out.println("Enter transfer amount: ");
+                        double transferAmount= scanner.nextDouble();
+                        accountService.transfer(selectedAccount.getAccountId(), receiverAccountId,transferAmount);
+                    }else if (transferAccountChoice.equals("3")){
+                        System.out.println("Bye!");
+                    } else{
+                        System.out.println("Invalid input! Please try again.");
+                        return;
+                    }
+
                 }else if (transactionOption.equals("4")){
                     System.out.println("Bye!");
                 } else {

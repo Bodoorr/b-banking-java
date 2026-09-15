@@ -4,7 +4,10 @@ import models.CheckingAccount;
 import models.Customer;
 import models.SavingsAccount;
 import utils.FileManager;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerService {
     public void addCustomer(String id, String firstName, String lastName, String password, String accountType,String checkingAccountId, double checkingAccountBalance , String savingsAccountId, double savingsAccountBalance){
@@ -38,5 +41,35 @@ public class CustomerService {
 
         FileManager.writeData("src/accounts", accountList);
 
+    }
+    public boolean customerIdExisting(String id){
+        try {
+            List<String> users= FileManager.readAllLines("src/data");
+            for (String user: users){
+                String [] data= user.split(",");
+                if (data[0].equals(id)){
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+
+    public boolean accountIdExisting(String accountId){
+        try {
+            List<String> accounts= FileManager.readAllLines("src/accounts");
+            for (String account:accounts){
+                String [] data = account.split(",");
+                if (data[0].equals(accountId)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }
