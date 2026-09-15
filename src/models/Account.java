@@ -23,7 +23,10 @@ public abstract class Account {
 
     //deposit
     public void deposit(double amount){
-
+if (amount<=0){
+    System.out.println("Amount must be greater than 0.");
+    return;
+}
         balance += amount;
 
         if (balance>=0 && !accountActive){
@@ -34,6 +37,10 @@ public abstract class Account {
 
     //withdraw
     public void withdraw(double amount){
+
+        if (amount<=0){
+            System.out.println("Amount must be greater than 0.");
+        }
         if (!accountActive){
             System.out.println("Account is deactivated.");
             return;
