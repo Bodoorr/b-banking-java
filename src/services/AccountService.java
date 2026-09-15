@@ -101,7 +101,62 @@ return accountsList;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public void transfer(String fromAccountId, String toAccountId, double amount){
+        Account fromAccount=null;
+        Account toAccount=null;
 
+        try {
+            List<String> lines=FileManager.readAllLines("src/accounts");
+            for (String line:lines){
+                String [] data=line.split(",");
+                double balance= Double.parseDouble(data[3]);
+                int overdraftCount= Integer.parseInt(data[4]);
+                boolean accountActive= Boolean.parseBoolean(data[5]);
+
+                if (data[0].equals(fromAccountId)){
+                    if (data[2].equals("CHECKING")){
+                        fromAccount= new CheckingAccount(data[0],balance,overdraftCount,accountActive);
+                    } else if (data[2].equals("SAVINGS")) {
+                        fromAccount= new SavingsAccount(data[0],balance,overdraftCount,accountActive);
+                    }
+                }
+                if(data[0].equals(toAccountId)){
+                    if (data[2].equals("CHECKING")){
+                        toAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive);
+                    }else if (data[2].equals("SAVINGS")){
+                        toAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive);
+                    }
+                }
+            }
+            if (fromAccount==null || toAccount==null){
+                System.out.println("No Account Found.");
+                return;
+            }
+            double oldBalance= fromAccount.getBalance();
+            fromAccount.withdraw(amount);
+            if (fromAccount.getBalance() == oldBalance){
+                System.out.println("Transfer Failed.");
+                return;
+            }
+            toAccount.deposit(amount);
+            ArrayList<String> updatedLines= new ArrayList<>();
+            for (String line:lines){
+                String [] data= line.split(",");
+                if (data[0].equals(fromAccountId)) {
+                    String updateLine= data[0]+","+data[1]+","+data[2]+","+fromAccount.getBalance()+","+fromAccount.getOverdraftCount()+","+fromAccount.getAccountActive();
+                    updatedLines.add(updateLine);
+                }else if (data[0].equals(toAccountId)) {
+                    String updateLine = data[0] + "," + data[1] + "," + data[2] + "," + toAccount.getBalance() + "," + toAccount.getOverdraftCount() + "," + toAccount.getAccountActive();
+                    updatedLines.add(updateLine);
+                }else{
+                    updatedLines.add(line);
+                }
+            }
+            FileManager.overWriteFile("src/accounts",updatedLines);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
