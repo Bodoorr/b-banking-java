@@ -72,4 +72,25 @@ public class CustomerService {
         }
         return false;
     }
+
+
+    public void changePassword(String id, String newPassword){
+        try {
+            List<String> lines=FileManager.readAllLines("src/data");
+            ArrayList<String> updatedLines=new ArrayList<>();
+
+            for (String line: lines){
+                String [] data=line.split(",");
+                if (data[0].equals(id)){
+                    String updateLine= data[0]+","+data[1]+","+data[2]+","+newPassword+","+data[4];
+                    updatedLines.add(updateLine);
+                }else {
+                    updatedLines.add(line);
+                }
+            }
+            FileManager.overWriteFile("src/data",updatedLines);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

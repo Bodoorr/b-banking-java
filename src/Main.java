@@ -117,7 +117,7 @@ public class Main {
                     selectedAccount= accounts.get(0);
                 } else {
                     System.out.println("Select Account: ");
-                    System.out.println("1.Checking Account.");
+                    System.out.println("1. Checking Account.");
                     System.out.println("2. Savings Account.");
                     String selectAccountOption= scanner.next();
                     if (selectAccountOption.equals("1")){
@@ -134,7 +134,8 @@ public class Main {
                 System.out.println("1. Deposit");
                 System.out.println("2. Withdraw");
                 System.out.println("3. Transfer");
-                System.out.println("4. Exit");
+                System.out.println("4. Change Password");
+                System.out.println("5. Exit");
                 String transactionOption= scanner.next();
                 if (transactionOption.equals("1")){
                     System.out.print("Enter deposit amount: ");
@@ -176,7 +177,9 @@ public class Main {
                         return;
                     }
 
-                }else if (transactionOption.equals("4")){
+                } else if (transactionOption.equals("4")) {
+
+                } else if (transactionOption.equals("5")){
                     System.out.println("Bye!");
                 } else {
                     System.out.println("Invalid input, Please try again.");
