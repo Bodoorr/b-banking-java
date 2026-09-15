@@ -178,6 +178,17 @@ public class Main {
                     }
 
                 } else if (transactionOption.equals("4")) {
+                    System.out.println("Enter new password: ");
+                    String newPassword= scanner.next();
+                    System.out.println("Confirm password: ");
+                    String confirmPassword= scanner.next();
+
+                    if (newPassword.equals(confirmPassword)){
+                        customerService.changePassword(user.getId(), newPassword);
+                        System.out.println("Password changed successfully.");
+                    } else {
+                        System.out.println("Password Not matched.");
+                    }
 
                 } else if (transactionOption.equals("5")){
                     System.out.println("Bye!");
