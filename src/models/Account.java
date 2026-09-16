@@ -44,6 +44,7 @@ if (amount<=0){
 
         if (amount<=0){
             System.out.println("Amount must be greater than 0.");
+            return;
         }
         if (!accountActive){
             System.out.println("Account is deactivated.");
