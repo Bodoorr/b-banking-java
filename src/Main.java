@@ -206,6 +206,7 @@ public class Main {
                     System.out.println("6. Last Month");
                     System.out.println("7. Last 30 Days");
 
+
                     String filterOptions= scanner.next();
 
                     switch (filterOptions){
