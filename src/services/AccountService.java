@@ -24,12 +24,12 @@ public class AccountService {
                     double balance= Double.parseDouble(data[3]);
                     int overdraftCount= Integer.parseInt(data[4]);
                     boolean accountActive= Boolean.parseBoolean(data[5]);
-
+                    String cardType= data[6];
                     if (data[2].equals("CHECKING")){
-                        CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive);
+                        CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive,cardType);
                         accountsList.add(checkingAccount);
                     }else if(data[2].equals("SAVINGS")){
-                        SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive);
+                        SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive,cardType);
                         accountsList.add(savingsAccount);
                     }
                 }
@@ -50,9 +50,9 @@ return accountsList;
                 double balance = Double.parseDouble(data[3]);
                 int overdraftCount= Integer.parseInt(data[4]);
                 boolean accountActive= Boolean.parseBoolean(data[5]);
-
+                String cardType= data[6];
                     if (data[2].equals("CHECKING")){
-                        CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive);
+                        CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double checkingOldBalance= checkingAccount.getBalance();
                         checkingAccount.deposit(amount);
@@ -62,12 +62,12 @@ return accountsList;
                             return;
                         }
 
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance()+","+checkingAccount.getOverdraftCount()+","+checkingAccount.getAccountActive();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance()+","+checkingAccount.getOverdraftCount()+","+checkingAccount.getAccountActive()+","+data[6];
                         updatedLines.add(updateLine);
                         Transaction transaction=new Transaction(LocalDateTime.now(),data[1],accountId,checkingAccount.getBalance(),amount,"DEPOSIT");
                         transactionService.saveTransaction(transaction);
                     }else if(data[2].equals("SAVINGS")){
-                        SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive);
+                        SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double savingsOldBalance= savingsAccount.getBalance();
                         savingsAccount.deposit(amount);
@@ -77,7 +77,7 @@ return accountsList;
                             return;
                         }
 
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance()+","+savingsAccount.getOverdraftCount()+","+savingsAccount.getAccountActive();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance()+","+savingsAccount.getOverdraftCount()+","+savingsAccount.getAccountActive()+","+data[6];
                         updatedLines.add(updateLine);
                         Transaction transaction=new Transaction(LocalDateTime.now(),data[1],accountId,savingsAccount.getBalance(),amount,"DEPOSIT");
                         transactionService.saveTransaction(transaction);
@@ -105,8 +105,9 @@ return accountsList;
                     double balance= Double.parseDouble(data[3]);
                     int overdraftCount= Integer.parseInt(data[4]);
                     boolean accountActive= Boolean.parseBoolean(data[5]);
+                    String cardType= data[6];
                     if (data[2].equals("CHECKING")){
-                        CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive);
+                        CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double checkingOldBalance= checkingAccount.getBalance();
                         checkingAccount.withdraw(amount);
@@ -116,12 +117,12 @@ return accountsList;
                             return;
                         }
 
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance()+","+checkingAccount.getOverdraftCount()+","+checkingAccount.getAccountActive();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+checkingAccount.getBalance()+","+checkingAccount.getOverdraftCount()+","+checkingAccount.getAccountActive()+","+data[6];
                         updatedLines.add(updateLine);
                         Transaction transaction=new Transaction(LocalDateTime.now(),data[1],accountId,checkingAccount.getBalance(),amount,"WITHDRAW");
                         transactionService.saveTransaction(transaction);
                     }else if (data[2].equals("SAVINGS")){
-                        SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive);
+                        SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double savingsOldBalance= savingsAccount.getBalance();
                         savingsAccount.withdraw(amount);
@@ -131,7 +132,7 @@ return accountsList;
                             return;
                         }
 
-                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance()+","+savingsAccount.getOverdraftCount()+","+savingsAccount.getAccountActive();
+                        String updateLine= data[0]+","+data[1]+","+data[2]+","+savingsAccount.getBalance()+","+savingsAccount.getOverdraftCount()+","+savingsAccount.getAccountActive()+","+data[6];
                         updatedLines.add(updateLine);
                         Transaction transaction=new Transaction(LocalDateTime.now(),data[1],accountId,savingsAccount.getBalance(),amount,"WITHDRAW");
                         transactionService.saveTransaction(transaction);
@@ -162,21 +163,21 @@ return accountsList;
                 double balance= Double.parseDouble(data[3]);
                 int overdraftCount= Integer.parseInt(data[4]);
                 boolean accountActive= Boolean.parseBoolean(data[5]);
-
+                String cardType= data[6];
                 if (data[0].equals(fromAccountId)){
                     fromCustomerId= data[1];
                     if (data[2].equals("CHECKING")){
-                        fromAccount= new CheckingAccount(data[0],balance,overdraftCount,accountActive);
+                        fromAccount= new CheckingAccount(data[0],balance,overdraftCount,accountActive,cardType);
                     } else if (data[2].equals("SAVINGS")) {
-                        fromAccount= new SavingsAccount(data[0],balance,overdraftCount,accountActive);
+                        fromAccount= new SavingsAccount(data[0],balance,overdraftCount,accountActive,cardType);
                     }
                 }
                 if(data[0].equals(toAccountId)){
                     toCustomerId= data[1];
                     if (data[2].equals("CHECKING")){
-                        toAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive);
+                        toAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive,cardType);
                     }else if (data[2].equals("SAVINGS")){
-                        toAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive);
+                        toAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive,cardType);
                     }
                 }
             }
@@ -203,10 +204,10 @@ return accountsList;
             for (String line:lines){
                 String [] data= line.split(",");
                 if (data[0].equals(fromAccountId)) {
-                    String updateLine= data[0]+","+data[1]+","+data[2]+","+fromAccount.getBalance()+","+fromAccount.getOverdraftCount()+","+fromAccount.getAccountActive();
+                    String updateLine= data[0]+","+data[1]+","+data[2]+","+fromAccount.getBalance()+","+fromAccount.getOverdraftCount()+","+fromAccount.getAccountActive()+","+data[6];
                     updatedLines.add(updateLine);
                 }else if (data[0].equals(toAccountId)) {
-                    String updateLine = data[0] + "," + data[1] + "," + data[2] + "," + toAccount.getBalance() + "," + toAccount.getOverdraftCount() + "," + toAccount.getAccountActive();
+                    String updateLine = data[0] + "," + data[1] + "," + data[2] + "," + toAccount.getBalance() + "," + toAccount.getOverdraftCount() + "," + toAccount.getAccountActive()+","+data[6];
                     updatedLines.add(updateLine);
                 }else{
                     updatedLines.add(line);
