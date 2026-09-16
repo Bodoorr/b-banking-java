@@ -146,4 +146,41 @@ public class TransactionService {
             throw new RuntimeException(e);
         }
     }
+
+    public double getTodayDepositTotal(String accountId){
+        double total= 0;
+        try {
+            List<String> lines=FileManager.readAllLines("src/transactions");
+            LocalDate today=LocalDate.now();
+            for (String line:lines){
+                String [] data=line.split(",");
+                double amount= Double.parseDouble(data[4]);
+                if (data[2].equals(accountId) && data[5].equals("DEPOSIT") && getTransactionDate(data).equals(today)){
+                    total+=amount;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
+
+
+    public double getTodayWithdrawTotal(String accountId){
+        double total= 0;
+        try {
+            List<String> lines=FileManager.readAllLines("src/transactions");
+            LocalDate today=LocalDate.now();
+            for (String line:lines){
+                String [] data=line.split(",");
+                double amount= Double.parseDouble(data[4]);
+                if (data[2].equals(accountId) && data[5].equals("WITHDRAW") && getTransactionDate(data).equals(today)){
+                    total+=amount;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
 }

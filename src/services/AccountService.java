@@ -51,10 +51,16 @@ return accountsList;
                 int overdraftCount= Integer.parseInt(data[4]);
                 boolean accountActive= Boolean.parseBoolean(data[5]);
                 String cardType= data[6];
+                double todayDeposits= transactionService.getTodayDepositTotal(accountId);
+                double totalTodayAmountDeposit= amount+todayDeposits;
                     if (data[2].equals("CHECKING")){
                         CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double checkingOldBalance= checkingAccount.getBalance();
+                        if (totalTodayAmountDeposit>checkingAccount.getDebitCard().getDepositLimit()){
+                            System.out.println("Deposit exceeds daily limit.");
+                            return;
+                        }
                         checkingAccount.deposit(amount);
 
                         if (checkingAccount.getBalance()==checkingOldBalance){
@@ -70,6 +76,12 @@ return accountsList;
                         SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double savingsOldBalance= savingsAccount.getBalance();
+
+                        if (totalTodayAmountDeposit>savingsAccount.getDebitCard().getDepositLimit()){
+                            System.out.println("Deposit exceeds daily limit.");
+                            return;
+                        }
+
                         savingsAccount.deposit(amount);
 
                         if (savingsAccount.getBalance()==savingsOldBalance){
@@ -99,6 +111,8 @@ return accountsList;
         ArrayList<String> updatedLines= new ArrayList<>();
         try {
             List<String> lines= FileManager.readAllLines("src/accounts");
+            double todayWithdraws= transactionService.getTodayWithdrawTotal(accountId);
+            double totalTodayAmountWithdraw= amount+todayWithdraws;
             for(String line:lines){
                 String [] data= line.split(",");
                 if (accountId.equals(data[0])){
@@ -110,6 +124,12 @@ return accountsList;
                         CheckingAccount checkingAccount=new CheckingAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double checkingOldBalance= checkingAccount.getBalance();
+
+                        if (totalTodayAmountWithdraw>checkingAccount.getDebitCard().getWithdrawLimit()){
+                            System.out.println("Withdraw exceeds daily limit.");
+                            return;
+                        }
+
                         checkingAccount.withdraw(amount);
 
                         if (checkingAccount.getBalance() == checkingOldBalance){
@@ -125,6 +145,13 @@ return accountsList;
                         SavingsAccount savingsAccount=new SavingsAccount(data[0],balance,overdraftCount,accountActive,cardType);
 
                         double savingsOldBalance= savingsAccount.getBalance();
+
+                        if (totalTodayAmountWithdraw>savingsAccount.getDebitCard().getWithdrawLimit()){
+                            System.out.println("Deposit exceeds daily limit.");
+                            return;
+                        }
+
+
                         savingsAccount.withdraw(amount);
 
                         if (savingsAccount.getBalance()==savingsOldBalance){
