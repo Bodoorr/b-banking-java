@@ -212,19 +212,67 @@ return accountsList;
                 System.out.println("No Account Found.");
                 return;
             }
+            boolean ownTransfer= fromCustomerId.equals(toCustomerId);
+
+            String withdrawTransferType;
+            if (ownTransfer){
+                withdrawTransferType="OWN-TRANSFER-WITHDRAW";
+                double todayOwnTransfers= transactionService.getTodayOwnTransferTotal(fromAccountId);
+                double totalTodayOwnTransfer = todayOwnTransfers + amount;
+
+                if (totalTodayOwnTransfer > fromAccount.getDebitCard().getOwnTransferLimit()){
+                    System.out.println("Your own transfer exceeds daily limit.");
+                    return;
+                }
+            }else {
+                withdrawTransferType="TRANSFER-WITHDRAW";
+                double todayTransfers= transactionService.getTodayTransferTotal(fromAccountId);
+                double totalTodayTransfer = todayTransfers + amount;
+
+                if (totalTodayTransfer > fromAccount.getDebitCard().getTransferLimit()){
+                    System.out.println("Your transfer exceeds daily limit.");
+                    return;
+                }
+            }
+
+
+            String depositTransferType;
+            if (ownTransfer){
+                depositTransferType="OWN-TRANSFER-DEPOSIT";
+                double todayOwnDeposits= transactionService.getTodayOwnTransferDeposit(toAccountId);
+                double totalTodayOwnDeposit= todayOwnDeposits+amount;
+
+                if (totalTodayOwnDeposit > toAccount.getDebitCard().getOwnDepositLimit()){
+                    System.out.println("Your own deposit exceeds daily limit.");
+                    return;
+                }
+
+            }else {
+                depositTransferType="TRANSFER-DEPOSIT";
+                double todayTransferDeposits= transactionService.getTodayTransferDeposit(toAccountId);
+                double totalTodayTransferDeposit= todayTransferDeposits+amount;
+
+
+                if (totalTodayTransferDeposit > toAccount.getDebitCard().getDepositLimit()){
+                    System.out.println("Deposit exceeds daily limit.");
+                    return;
+                }
+            }
             double oldBalance= fromAccount.getBalance();
+
             fromAccount.withdraw(amount);
 
             if (fromAccount.getBalance() == oldBalance){
                 System.out.println("Transfer Failed.");
                 return;
             }
-            Transaction withdrawTransaction=new Transaction(LocalDateTime.now(),fromCustomerId,fromAccountId,fromAccount.getBalance(),amount,"TRANSFER-WITHDRAW");
-            transactionService.saveTransaction(withdrawTransaction);
 
+            Transaction withdrawTransaction=new Transaction(LocalDateTime.now(),fromCustomerId,fromAccountId,fromAccount.getBalance(),amount,withdrawTransferType);
+            transactionService.saveTransaction(withdrawTransaction);
             toAccount.deposit(amount);
 
-            Transaction depositTransaction=new Transaction(LocalDateTime.now(),toCustomerId,toAccountId,toAccount.getBalance(),amount,"TRANSFER-DEPOSIT");
+
+            Transaction depositTransaction=new Transaction(LocalDateTime.now(),toCustomerId,toAccountId,toAccount.getBalance(),amount,depositTransferType);
             transactionService.saveTransaction(depositTransaction);
 
             ArrayList<String> updatedLines= new ArrayList<>();

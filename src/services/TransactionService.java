@@ -183,4 +183,83 @@ public class TransactionService {
         }
         return total;
     }
+
+
+    public double getTodayOwnTransferTotal(String accountId){
+        double total= 0;
+        try {
+            List<String> lines=FileManager.readAllLines("src/transactions");
+            LocalDate today=LocalDate.now();
+            for (String line:lines){
+                String [] data=line.split(",");
+                double amount= Double.parseDouble(data[4]);
+
+                if (data[2].equals(accountId) && data[5].equals("OWN-TRANSFER-WITHDRAW") && getTransactionDate(data).equals(today)){
+                    total+=amount;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
+
+    public double getTodayTransferTotal(String accountId){
+        double total= 0;
+        try {
+            List<String> lines=FileManager.readAllLines("src/transactions");
+            LocalDate today=LocalDate.now();
+            for (String line:lines){
+                String [] data=line.split(",");
+                double amount= Double.parseDouble(data[4]);
+
+                if (data[2].equals(accountId) && data[5].equals("TRANSFER-WITHDRAW") && getTransactionDate(data).equals(today)){
+                    total+=amount;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
+
+    public double getTodayOwnTransferDeposit(String accountId){
+        double total= 0;
+        try {
+            List<String> lines=FileManager.readAllLines("src/transactions");
+            LocalDate today=LocalDate.now();
+            for (String line:lines){
+                String [] data=line.split(",");
+                double amount= Double.parseDouble(data[4]);
+
+                if (data[2].equals(accountId) && data[5].equals("OWN-TRANSFER-DEPOSIT") && getTransactionDate(data).equals(today)){
+                    total+=amount;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
+
+    public double getTodayTransferDeposit(String accountId){
+        double total= 0;
+        try {
+            List<String> lines=FileManager.readAllLines("src/transactions");
+            LocalDate today=LocalDate.now();
+            for (String line:lines){
+                String [] data=line.split(",");
+                double amount= Double.parseDouble(data[4]);
+
+                if (data[2].equals(accountId) && data[5].equals("TRANSFER-DEPOSIT") && getTransactionDate(data).equals(today)){
+                    total+=amount;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
+
+
 }
