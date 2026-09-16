@@ -56,6 +56,9 @@ public class Main {
                     String savingsAccountId="";
                     double checkingAccountBalance=0;
                     double savingsAccountBalance=0;
+                    String checkingCardType="";
+                    String savingsCardType="";
+
                     if (accountChoice.equals("1")) {
                         accountType = "CHECKING";
                         System.out.print("Enter Account ID: ");
@@ -64,8 +67,29 @@ public class Main {
                             System.out.println("Checking ID already exist!");
                             return;
                         }
-                            System.out.print("Enter Checking Account Balance: ");
+                        System.out.print("Enter Checking Account Balance: ");
                         checkingAccountBalance= scanner.nextDouble();
+
+                        System.out.println("Choose Debit Card Type:");
+                        System.out.println("1. Platinum");
+                        System.out.println("2. Titanium");
+                        System.out.println("3. Mastercard");
+
+                        String cardChoice = scanner.next();
+                        switch (cardChoice){
+                            case "1":
+                                checkingCardType = "Platinum";
+                                break;
+                            case "2":
+                                checkingCardType = "Titanium";
+                                break;
+                            case "3":
+                                checkingCardType = "Mastercard";
+                                break;
+                            default:
+                                System.out.println("Invalid card type.");
+                                return;
+                        }
                     } else if (accountChoice.equals("2")) {
                         accountType = "SAVINGS";
                         System.out.print("Enter Account ID: ");
@@ -76,6 +100,27 @@ public class Main {
                         }
                         System.out.print("Enter Savings Account Balance: ");
                         savingsAccountBalance= scanner.nextDouble();
+
+                        System.out.println("Choose Debit Card Type:");
+                        System.out.println("1. Platinum");
+                        System.out.println("2. Titanium");
+                        System.out.println("3. Mastercard");
+
+                        String cardChoice = scanner.next();
+                        switch (cardChoice){
+                            case "1":
+                                savingsCardType = "Platinum";
+                                break;
+                            case "2":
+                                savingsCardType = "Titanium";
+                                break;
+                            case "3":
+                                savingsCardType = "Mastercard";
+                                break;
+                            default:
+                                System.out.println("Invalid card type.");
+                                return;
+                        }
                     } else if (accountChoice.equals("3")) {
                         accountType = "BOTH";
                         System.out.print("Enter Checking Account ID: ");
@@ -86,6 +131,29 @@ public class Main {
                         }
                         System.out.print("Enter Checking Account Balance: ");
                         checkingAccountBalance= scanner.nextDouble();
+
+                        System.out.println("Choose Checking Debit Card Type:");
+                        System.out.println("1. Platinum");
+                        System.out.println("2. Titanium");
+                        System.out.println("3. Mastercard");
+
+                        String checkingCardChoice = scanner.next();
+
+                        switch (checkingCardChoice){
+                            case "1":
+                                checkingCardType = "Platinum";
+                                break;
+                            case "2":
+                                checkingCardType = "Titanium";
+                                break;
+                            case "3":
+                                checkingCardType = "Mastercard";
+                                break;
+                            default:
+                                System.out.println("Invalid card type.");
+                                return;
+                        }
+
                         System.out.print("Enter Savings Account ID: ");
                         savingsAccountId= scanner.next();
                         if (customerService.accountIdExisting(savingsAccountId) || savingsAccountId.equals(checkingAccountId)){
@@ -95,11 +163,32 @@ public class Main {
                         System.out.print("Enter Savings Account Balance: ");
                         savingsAccountBalance= scanner.nextDouble();
 
+                        System.out.println("Choose Savings Debit Card Type:");
+                        System.out.println("1. Platinum");
+                        System.out.println("2. Titanium");
+                        System.out.println("3. Mastercard");
+
+                        String cardChoice = scanner.next();
+                        switch (cardChoice){
+                            case "1":
+                                savingsCardType = "Platinum";
+                                break;
+                            case "2":
+                                savingsCardType = "Titanium";
+                                break;
+                            case "3":
+                                savingsCardType = "Mastercard";
+                                break;
+                            default:
+                                System.out.println("Invalid card type.");
+                                return;
+                        }
+
                     } else {
                         System.out.println("Invalid Account Type.");
                         return;
                     }
-                    customerService.addCustomer(customerId,customerFirstName,customerLastName,customerPassword,accountType,checkingAccountId, checkingAccountBalance,savingsAccountId,savingsAccountBalance);
+                    customerService.addCustomer(customerId,customerFirstName,customerLastName,customerPassword,accountType,checkingAccountId,checkingAccountBalance,checkingCardType,savingsAccountId,savingsAccountBalance,savingsCardType);
                     System.out.println("Customer added successfully.");
                 } else if (option.equals("2")) {
                     System.out.println("Bye!");
