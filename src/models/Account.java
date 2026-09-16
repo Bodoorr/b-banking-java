@@ -5,12 +5,16 @@ public abstract class Account {
     private String accountId;
     private int overdraftCount;
     private boolean accountActive;
+    private DebitCard debitCard;
 
-    public Account(String accountId, double balance, int overdraftCount, boolean accountActive){
+
+    public Account(String accountId, double balance, int overdraftCount, boolean accountActive, String cardType){
         this.accountId= accountId;
         this.balance= balance;
         this.overdraftCount= overdraftCount;
         this.accountActive= accountActive;
+
+        debitCard=new DebitCard(cardType);
     }
 
     public String getAccountId(){
@@ -71,5 +75,7 @@ if (amount<=0){
         return accountActive;
     }
 
-
+    public DebitCard getDebitCard(){
+        return debitCard;
+    }
 }
