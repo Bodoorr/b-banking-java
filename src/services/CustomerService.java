@@ -4,15 +4,18 @@ import models.CheckingAccount;
 import models.Customer;
 import models.SavingsAccount;
 import utils.FileManager;
+import utils.PasswordUtils;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerService {
-    public void addCustomer(String id, String firstName, String lastName, String password, String accountType,String checkingAccountId, double checkingAccountBalance , String savingsAccountId, double savingsAccountBalance){
+    public void addCustomer(String id, String firstName, String lastName, String password, String accountType,String checkingAccountId, double checkingAccountBalance , String savingsAccountId, double savingsAccountBalance) throws NoSuchAlgorithmException {
         Customer customer=new Customer(id,firstName,lastName, password, "C");
-        String customerData= id+","+firstName+","+lastName+","+password+","+"C";
+        String hashPassword= PasswordUtils.hashPassword(password);
+        String customerData= id+","+firstName+","+lastName+","+hashPassword+","+"C";
         ArrayList<String> customerList= new ArrayList<>();
         customerList.add(customerData);
         FileManager.writeData("src/data", customerList);
@@ -78,18 +81,18 @@ public class CustomerService {
         try {
             List<String> lines=FileManager.readAllLines("src/data");
             ArrayList<String> updatedLines=new ArrayList<>();
-
             for (String line: lines){
                 String [] data=line.split(",");
                 if (data[0].equals(id)){
-                    String updateLine= data[0]+","+data[1]+","+data[2]+","+newPassword+","+data[4];
+                    String hashPassword= PasswordUtils.hashPassword(newPassword);
+                    String updateLine= data[0]+","+data[1]+","+data[2]+","+hashPassword+","+data[4];
                     updatedLines.add(updateLine);
                 }else {
                     updatedLines.add(line);
                 }
             }
             FileManager.overWriteFile("src/data",updatedLines);
-        } catch (IOException e) {
+        } catch (IOException | NoSuchAlgorithmException  e) {
             throw new RuntimeException(e);
         }
     }

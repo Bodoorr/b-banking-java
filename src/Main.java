@@ -6,10 +6,11 @@ import services.CustomerService;
 import services.LoginService;
 import services.TransactionService;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         Scanner scanner=new Scanner(System.in);
         System.out.println("Login to your Account");
         System.out.print("Enter ID: ");
