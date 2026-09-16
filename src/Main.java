@@ -34,12 +34,8 @@ public class Main {
                 String option= scanner.next();
 
                 if (option.equals("1")){
-                    System.out.println("Enter Customer ID: ");
-                    String customerId= scanner.next();
-                    if (customerService.customerIdExisting(customerId)){
-                        System.out.println("Customer Id already exist.");
-                        return;
-                    }
+                    String customerId= customerService.generateCustomerId();
+
                     System.out.println("Enter Customer First Name: ");
                     String customerFirstName= scanner.next();
                     System.out.println("Enter Customer Last Name: ");
@@ -61,12 +57,7 @@ public class Main {
 
                     if (accountChoice.equals("1")) {
                         accountType = "CHECKING";
-                        System.out.print("Enter Account ID: ");
-                        checkingAccountId= scanner.next();
-                        if (customerService.accountIdExisting(checkingAccountId)){
-                            System.out.println("Checking ID already exist!");
-                            return;
-                        }
+                        checkingAccountId= customerService.generateAccountId();
                         System.out.print("Enter Checking Account Balance: ");
                         checkingAccountBalance= scanner.nextDouble();
 
@@ -92,12 +83,8 @@ public class Main {
                         }
                     } else if (accountChoice.equals("2")) {
                         accountType = "SAVINGS";
-                        System.out.print("Enter Account ID: ");
-                        savingsAccountId= scanner.next();
-                        if (customerService.accountIdExisting(savingsAccountId)){
-                            System.out.println("Savings ID already exist!");
-                            return;
-                        }
+                        savingsAccountId= customerService.generateAccountId();
+
                         System.out.print("Enter Savings Account Balance: ");
                         savingsAccountBalance= scanner.nextDouble();
 
@@ -123,12 +110,7 @@ public class Main {
                         }
                     } else if (accountChoice.equals("3")) {
                         accountType = "BOTH";
-                        System.out.print("Enter Checking Account ID: ");
-                        checkingAccountId= scanner.next();
-                        if (customerService.accountIdExisting(checkingAccountId)){
-                            System.out.println("Checking ID already exist!");
-                            return;
-                        }
+                        checkingAccountId= customerService.generateAccountId();
                         System.out.print("Enter Checking Account Balance: ");
                         checkingAccountBalance= scanner.nextDouble();
 
@@ -153,13 +135,10 @@ public class Main {
                                 System.out.println("Invalid card type.");
                                 return;
                         }
+                        do {
+                            savingsAccountId = customerService.generateAccountId();
+                        } while (savingsAccountId.equals(checkingAccountId));
 
-                        System.out.print("Enter Savings Account ID: ");
-                        savingsAccountId= scanner.next();
-                        if (customerService.accountIdExisting(savingsAccountId) || savingsAccountId.equals(checkingAccountId)){
-                            System.out.println("This account ID cannot be used. Each account suppose to have different ID's.");
-                            return;
-                        }
                         System.out.print("Enter Savings Account Balance: ");
                         savingsAccountBalance= scanner.nextDouble();
 
