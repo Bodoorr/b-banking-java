@@ -7,6 +7,8 @@ import models.User;
 import utils.FileManager;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +71,69 @@ public class TransactionService {
                         System.out.println(transaction);
                 }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private LocalDate getTransactionDate(String [] data){
+        LocalDateTime transactionDateTime= LocalDateTime.parse(data[0]);
+        return transactionDateTime.toLocalDate();
+    }
+
+    public void filterTransactions(User user, String filter){
+        LocalDate today= LocalDate.now();
+        LocalDate yesterday= today.minusDays(1);
+
+        int monthCount= today.getDayOfMonth();
+        LocalDate firstDate= today.minusDays(monthCount-1);
+        LocalDate lastMonth= firstDate.minusMonths(1);
+        LocalDate endDate= firstDate.minusDays(1);
+
+
+        int dayCount= today.getDayOfWeek().getValue();
+        LocalDate startOfThisWeek= today.minusDays(dayCount-1);
+        LocalDate lastWeek= startOfThisWeek.minusWeeks(1);
+        LocalDate endOfLastWeek= lastWeek.plusDays(6);
+
+
+        LocalDate last7days= today.minusDays(6);
+        LocalDate last30Days= today.minusDays(29);
+
+        try {
+            List<String> lines=FileManager.readAllLines("src/transactions");
+
+           lines.stream().map(line-> line.split(","))
+                   .filter(data-> data[1].equals(user.getId()))
+                   .filter(data-> {
+                       LocalDate transactionDate= getTransactionDate(data);
+                       if (filter.equals("today")){
+                           return transactionDate.equals(today);
+                       }
+                       if (filter.equals("yesterday")){
+                           return transactionDate.equals(yesterday);
+                       }
+                       if (filter.equals("lastMonth")){
+                          return !transactionDate.isBefore(lastMonth) && !transactionDate.isAfter(endDate);
+                       }
+                       if (filter.equals("lastWeek")){
+                           return  !transactionDate.isBefore(lastWeek) && !transactionDate.isAfter(endOfLastWeek);
+                       }
+
+                       if (filter.equals("last7days")){
+                           return !transactionDate.isBefore(last7days) && !transactionDate.isAfter(today);
+                       }
+
+                       if (filter.equals("last30days")){
+                           return !transactionDate.isBefore(last30Days) && !transactionDate.isAfter(today);
+                       }
+                       return false;
+                           }).forEach(data-> {
+                       System.out.println("Transaction Type: "+data[5]);
+                       System.out.println("Date: "+data[0]);
+                       System.out.println("Amount: "+data[4]);
+                       System.out.println("Balance: "+data[3]);
+                   });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
