@@ -196,7 +196,47 @@ public class Main {
 
                 } else if (transactionOption.equals("5")) {
                     TransactionService transactionService=new TransactionService();
-                    transactionService.displayTransaction(id);
+
+                    System.out.println("View Transactions: ");
+                    System.out.println("1. All Transactions");
+                    System.out.println("2. Today");
+                    System.out.println("3. Yesterday");
+                    System.out.println("4. Last Week");
+                    System.out.println("5. Last 7 Days");
+                    System.out.println("6. Last Month");
+                    System.out.println("7. Last 30 Days");
+
+                    String filterOptions= scanner.next();
+
+                    switch (filterOptions){
+                        case "1":
+                            transactionService.displayTransaction(id);
+                            break;
+                        case "2":
+                            transactionService.filterTransactions(user, "today");
+                            break;
+                        case "3":
+                            transactionService.filterTransactions(user,"yesterday");
+                            break;
+                        case "4":
+                            transactionService.filterTransactions(user,"lastWeek");
+                            break;
+                        case "5":
+                            transactionService.filterTransactions(user,"last7days");
+                            break;
+                        case "6":
+                            transactionService.filterTransactions(user,"lastMonth");
+                            break;
+                        case "7":
+                            transactionService.filterTransactions(user,"last30days");
+                            break;
+
+                        default:
+                            System.out.println("Invalid input! try again.");
+                            break;
+                    }
+
+
                 } else if (transactionOption.equals("6")) {
                     TransactionService transactionService=new TransactionService();
                     transactionService.displayAccountStatement(user,selectedAccount);

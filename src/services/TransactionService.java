@@ -103,7 +103,7 @@ public class TransactionService {
         try {
             List<String> lines=FileManager.readAllLines("src/transactions");
 
-           lines.stream().map(line-> line.split(","))
+           List<String[]> filteredTransactions = lines.stream().map(line-> line.split(","))
                    .filter(data-> data[1].equals(user.getId()))
                    .filter(data-> {
                        LocalDate transactionDate= getTransactionDate(data);
@@ -128,12 +128,20 @@ public class TransactionService {
                            return !transactionDate.isBefore(last30Days) && !transactionDate.isAfter(today);
                        }
                        return false;
-                           }).forEach(data-> {
+                           }).toList();
+
+                   filteredTransactions.forEach(data-> {
                        System.out.println("Transaction Type: "+data[5]);
                        System.out.println("Date: "+data[0]);
                        System.out.println("Amount: "+data[4]);
                        System.out.println("Balance: "+data[3]);
+                       System.out.println();
                    });
+            if (filteredTransactions.isEmpty()){
+                System.out.println("No transactions found.");
+            }else {
+                System.out.println("Total Transactions: "+filteredTransactions.size());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
