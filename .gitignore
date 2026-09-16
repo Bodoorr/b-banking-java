@@ -32,3 +32,4 @@ bin/
 src/data
 src/accounts
 src/transactions
+src/loginAttempts
