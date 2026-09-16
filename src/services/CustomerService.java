@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CustomerService {
     public void addCustomer(String id, String firstName, String lastName, String password, String accountType,String checkingAccountId, double checkingAccountBalance ,String checkingCardType, String savingsAccountId, double savingsAccountBalance, String savingsCardType) throws NoSuchAlgorithmException {
@@ -45,6 +46,17 @@ public class CustomerService {
         FileManager.writeData("src/accounts", accountList);
 
     }
+
+    public String generateCustomerId(){
+        Random random=new Random();
+        String customerId= "C"+(1000 + random.nextInt(9000));
+        while (customerIdExisting(customerId)){
+            customerId= "C"+(1000 + random.nextInt(9000));
+        }
+        return customerId;
+    }
+
+
     public boolean customerIdExisting(String id){
         try {
             List<String> users= FileManager.readAllLines("src/data");
@@ -59,6 +71,16 @@ public class CustomerService {
         }
         return false;
     }
+
+    public String generateAccountId(){
+        Random random=new Random();
+        String accountId= "A"+(1000 + random.nextInt(9000));
+        while (accountIdExisting(accountId)){
+            accountId= "A"+(1000 + random.nextInt(9000));
+        }
+        return accountId;
+    }
+
 
 
     public boolean accountIdExisting(String accountId){
