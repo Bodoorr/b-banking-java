@@ -19,13 +19,20 @@ public class TransactionService {
     public void displayTransaction(String customerId){
         try {
             List<String> lines= FileManager.readAllLines("src/transactions");
+            int transactionCount=0;
             for (String line:lines){
                 String [] data=line.split(",");
                 if (data[1].equals(customerId)){
+                    transactionCount++;
                     String transaction= "Transaction Type: "+data[5]+"\n"+"Date: "+data[0]+"\n"+"Account: "+data[2]+
-                            "\n"+"Amount: "+data[4]+"\n"+"Balance: "+data[3];
+                            "\n"+"Amount: "+data[4]+"\n"+"Balance: "+data[3]+"\n";
                     System.out.println(transaction);
                 }
+            }
+            if (transactionCount==0){
+                System.out.println("No transactions found.");
+            }else {
+                System.out.println("Total Transactions: "+transactionCount);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

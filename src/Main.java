@@ -1,8 +1,10 @@
 import models.Account;
+import models.Transaction;
 import models.User;
 import services.AccountService;
 import services.CustomerService;
 import services.LoginService;
+import services.TransactionService;
 
 import java.util.*;
 
@@ -135,7 +137,8 @@ public class Main {
                 System.out.println("2. Withdraw");
                 System.out.println("3. Transfer");
                 System.out.println("4. Change Password");
-                System.out.println("5. Exit");
+                System.out.println("5. View Transaction History");
+                System.out.println("6. Exit");
                 String transactionOption= scanner.next();
                 if (transactionOption.equals("1")){
                     System.out.print("Enter deposit amount: ");
@@ -190,7 +193,10 @@ public class Main {
                         System.out.println("Password Not matched.");
                     }
 
-                } else if (transactionOption.equals("5")){
+                } else if (transactionOption.equals("5")) {
+                    TransactionService transactionService=new TransactionService();
+                    transactionService.displayTransaction(id);
+                } else if (transactionOption.equals("6")){
                     System.out.println("Bye!");
                 } else {
                     System.out.println("Invalid input, Please try again.");
