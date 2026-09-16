@@ -3,6 +3,7 @@ import models.CheckingAccount;
 import models.SavingsAccount;
 import models.Transaction;
 import models.Account;
+import models.User;
 import utils.FileManager;
 
 import java.io.IOException;
@@ -42,9 +43,9 @@ public class TransactionService {
         }
     }
 
-    public void displayAccountStatement(String customerId, Account account){
+    public void displayAccountStatement(User user, Account account){
         System.out.println("DETAILED ACCOUNT STATEMENT\n");
-        System.out.println();
+        System.out.println("Customer: "+user.getFirstName()+" "+user.getLastName());
         if (account instanceof CheckingAccount){
             System.out.println("Account Type: Checking");
         } else if (account instanceof SavingsAccount){
@@ -62,8 +63,8 @@ public class TransactionService {
 
             for (String line:lines){
                 String [] data= line.split(",");
-                if (data[1].equals(customerId) && data[2].equals(account.getAccountId())){
-                        String transaction= "Transaction Type: "+data[5]+"\n"+"Date: "+data[0]+"\n"+
+                if (data[1].equals(user.getId()) && data[2].equals(account.getAccountId())){
+                        String transaction= "Transaction Type: "+data[5]+"\n"+"Date: "+data[0]+
                                 "\n"+"Amount: "+data[4]+"\n"+"Balance: "+data[3]+"\n";
                         System.out.println(transaction);
                 }

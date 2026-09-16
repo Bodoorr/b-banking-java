@@ -138,7 +138,8 @@ public class Main {
                 System.out.println("3. Transfer");
                 System.out.println("4. Change Password");
                 System.out.println("5. View Transaction History");
-                System.out.println("6. Exit");
+                System.out.println("6. View Account Statement");
+                System.out.println("7. Exit");
                 String transactionOption= scanner.next();
                 if (transactionOption.equals("1")){
                     System.out.print("Enter deposit amount: ");
@@ -196,7 +197,10 @@ public class Main {
                 } else if (transactionOption.equals("5")) {
                     TransactionService transactionService=new TransactionService();
                     transactionService.displayTransaction(id);
-                } else if (transactionOption.equals("6")){
+                } else if (transactionOption.equals("6")) {
+                    TransactionService transactionService=new TransactionService();
+                    transactionService.displayAccountStatement(user,selectedAccount);
+                } else if (transactionOption.equals("7")){
                     System.out.println("Bye!");
                 } else {
                     System.out.println("Invalid input, Please try again.");
