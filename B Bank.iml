@@ -34,5 +34,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="fusesource.jansi" level="project" />
   </component>
 </module>
