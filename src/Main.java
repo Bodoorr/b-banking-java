@@ -15,7 +15,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         CLITheme.showTitle("LOGIN");
-        System.out.println("Please enter your credentials to continue.");
 
         System.out.print("Enter ID: ");
         String id = scanner.next();
