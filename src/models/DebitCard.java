@@ -12,6 +12,7 @@ public class DebitCard {
 
     public DebitCard(String cardType){
         this.cardType = cardType;
+
         switch (cardType){
             case "Platinum":
                 withdrawLimit= 20000;
@@ -20,6 +21,7 @@ public class DebitCard {
                 depositLimit= 100000;
                 ownDepositLimit= 200000;
                 break;
+
             case "Titanium":
                 withdrawLimit= 10000;
                 transferLimit= 20000;
@@ -27,6 +29,7 @@ public class DebitCard {
                 depositLimit= 100000;
                 ownDepositLimit= 200000;
                 break;
+
             case "Mastercard":
                 withdrawLimit= 5000;
                 transferLimit= 10000;
@@ -34,6 +37,7 @@ public class DebitCard {
                 depositLimit= 100000;
                 ownDepositLimit= 200000;
                 break;
+
             default:
             throw new IllegalArgumentException("Invalid card type.");
         }

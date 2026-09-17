@@ -25,12 +25,11 @@ public abstract class Account {
         return balance;
     }
 
-    //deposit
     public void deposit(double amount){
-if (amount<=0){
-    System.out.println("Amount must be greater than 0.");
-    return;
-}
+        if (amount<=0){
+            System.out.println("Amount must be greater than 0.");
+            return;
+    }
         balance += amount;
 
         if (balance>=0 && !accountActive){
@@ -39,7 +38,6 @@ if (amount<=0){
         }
     }
 
-    //withdraw
     public void withdraw(double amount){
 
         if (amount<=0){
@@ -52,7 +50,7 @@ if (amount<=0){
         }
 
         if (balance<0 && amount>100){
-            System.out.println("Decline, You can't make this request.");
+            System.out.println("Declined. You can't make this request.");
             return;
         }
         balance -= amount;

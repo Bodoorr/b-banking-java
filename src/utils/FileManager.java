@@ -5,7 +5,6 @@ import java.util.*;
 
 public class FileManager {
 
-    // Create file
     public static void writeData(String filename, List<String> dataEntries) {
         BufferedWriter writer = null;
         try {
@@ -27,7 +26,6 @@ public class FileManager {
         }
     }
 
-    //read the file
     public static List<String> readAllLines(String filename) throws IOException {
         List<String> lines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -39,7 +37,6 @@ public class FileManager {
         return lines;
     }
 
-    //re-write data
     public static void overWriteFile(String filename, List<String> dataEntries) {
         BufferedWriter writer = null;
         try {
