@@ -1,9 +1,6 @@
 import models.Account;
 import models.User;
-import services.AccountService;
-import services.CustomerService;
-import services.LoginService;
-import services.TransactionService;
+import services.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -312,7 +309,8 @@ public class Main {
                 CLITheme.option("4", "Change Password");
                 CLITheme.option("5", "View Transaction History");
                 CLITheme.option("6", "View Account Statement");
-                CLITheme.option("7", "Exit");
+                CLITheme.option("7", "Currency Converter");
+                CLITheme.option("8", "Exit");
 
                 System.out.print("\nSelect an option: ");
                 String transactionOption = scanner.next();
@@ -512,6 +510,79 @@ public class Main {
                     );
 
                 } else if (transactionOption.equals("7")) {
+                    CLITheme.showTitle("CURRENCY CONVERTER");
+
+                    CurrencyService currencyService = new CurrencyService();
+
+                    CLITheme.option("1", "Bahraini Dinar (BHD)");
+                    CLITheme.option("2", "US Dollar (USD)");
+                    CLITheme.option("3", "British Pound (GBP)");
+                    CLITheme.option("4", "Euro (EUR)");
+                    CLITheme.option("5", "Saudi Riyal (SAR)");
+
+                    System.out.print("\nEnter currency to convert from: ");
+                    String fromCurrency = scanner.next();
+
+                    switch (fromCurrency) {
+                        case "1":
+                            fromCurrency = "BHD";
+                            break;
+                        case "2":
+                            fromCurrency = "USD";
+                            break;
+                        case "3":
+                            fromCurrency = "GBP";
+                            break;
+                        case "4":
+                            fromCurrency = "EUR";
+                            break;
+                        case "5":
+                            fromCurrency = "SAR";
+                            break;
+                        default:
+                            CLITheme.error("Invalid currency.");
+                            return;
+                    }
+
+                    System.out.print("Enter currency to convert to: ");
+                    String toCurrency = scanner.next();
+
+                    switch (toCurrency) {
+                        case "1":
+                            toCurrency = "BHD";
+                            break;
+                        case "2":
+                            toCurrency = "USD";
+                            break;
+                        case "3":
+                            toCurrency = "GBP";
+                            break;
+                        case "4":
+                            toCurrency = "EUR";
+                            break;
+                        case "5":
+                            toCurrency = "SAR";
+                            break;
+                        default:
+                            CLITheme.error("Invalid currency.");
+                            return;
+                    }
+
+                    System.out.print("Enter amount: ");
+                    double amount = scanner.nextDouble();
+
+                    double convertedAmount =
+                            currencyService.convert(amount, fromCurrency, toCurrency);
+
+                    System.out.printf(
+                            "%.2f %s = %.2f %s%n",
+                            amount,
+                            fromCurrency,
+                            convertedAmount,
+                            toCurrency
+                    );
+
+                } else if (transactionOption.equals("8")) {
 
                     CLITheme.goodbye(user.getFirstName());
 
